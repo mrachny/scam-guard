@@ -395,7 +395,7 @@
     <h1 class="title">Decisions From the Founding Session</h1>
     <p class="dek">What scam-guard is, the tiers it ships as, how it detects and responds, and what's still unresolved — compiled from a live working session grounded in a real incident.</p>
     <div class="meta-row">
-      <span><b>v1.3</b></span>
+      <span><b>v1.4</b></span>
       <span>2026-09-29</span>
       <span>Compiled by the founding round-table</span>
     </div>
@@ -587,9 +587,9 @@
         <p>Who holds admin by default in the Top tier, and what does a monitored family member get to see about their own monitoring? Parent-over-minor is an accepted category; adult-child-over-aging-parent is a far more delicate one.</p>
       </div>
       <div class="question">
-        <h3>Offensive measures</h3>
-        <p>Honeypots and infrastructure reporting vs. direct counter-strikes on scam operations.</p>
-        <p class="split-note">Unresolved tension in the room: framed as a differentiator by one voice, redirected toward lawful levers — registrar/ISP reporting, law-enforcement and threat-intel sharing — by another.</p>
+        <h3>Offensive measures — how far, not who</h3>
+        <p>The personnel question is closed (see Business Model, below): honeypot/counter-scam work is staffed by legitimate offensive-security professionals, never by people with an active or recent fraud record. What's still open is <i>how far the legitimate function goes</i> — honeypots and infrastructure/registrar/ISP reporting are uncontroversial; direct counter-strikes on scam-center infrastructure are not.</p>
+        <p class="split-note">Unresolved tension in the room: framed as a differentiator by one voice, redirected toward lawful levers by another.</p>
       </div>
       <div class="question">
         <h3>Revisit live-call detection</h3>
@@ -598,8 +598,37 @@
     </div>
   </section>
 
+  <section id="business">
+    <div class="section-head"><span class="section-num">08</span><h2>Business model — who actually pays</h2></div>
+    <p class="section-intro">The free tier isn't charity funded by the paid tiers alone — the strongest funding source is whoever already eats the financial loss when a scam succeeds.</p>
+
+    <h3 class="subhead" style="margin-top:0;">Revenue: bundled benefit, not a hard sell</h3>
+    <div class="formula-card">
+      Primary path is <b style="color:var(--text)">B2B2C through banks, insurers, and telecoms</b> — each already carries a balance-sheet reason to fund fraud prevention (Reg E reimbursement liability, identity-theft/elder-fraud insurance riders, spoofed-call regulatory pressure). Scam-Guard becomes a white-label benefit bundled into an existing account ("free with your bank account"), not a $9.99/mo ask a scared family has to discover and trust on its own. Direct-to-consumer Mid/Top/Gold tiers (see §02) remain the individual-purchase path where no institutional bundler exists yet.
+    </div>
+
+    <h3 class="subhead">Bridge funding: non-dilutive, before enterprise contracts land</h3>
+    <div class="formula-card">
+      FTC consumer-protection initiatives, DOJ Elder Justice Initiative funding, and AARP Foundation elder-fraud-prevention grants are real, existing, non-dilutive sources sized for exactly this problem shape — usable to build and prove the free tier before a bank signature is realistic.
+    </div>
+
+    <h3 class="subhead">Government and police: intel membership, not a data hand-off</h3>
+    <div class="formula-card">
+      Direct government/police funding moves on procurement timelines, not product timelines — treat it as slow, not primary. More importantly: <b style="color:var(--text)">they will not hand over collected fraud data</b> — bank SAR filings are legally privileged, and police case data is protected evidence or regulated PII, not a data source either side can just share. The real door is the one already opened by adopting MISP/STIX (§04): become a contributing/consuming member of an existing threat-intel consortium — FS-ISAC for banking, aggregated (not case-level) reporting to the FBI's IC3 — feeding the confirmed-pattern signal in, not requesting raw case files out.
+    </div>
+    <div class="adopt-note"><span class="chip">Guardrail</span><br/>Whoever signs the check should not silently become who the product answers to. The block-screen dignity principle (§03 — "we stopped this, was this you?", one-tap way back) holds regardless of which institution is the paying customer; a bundler's fraud-loss dashboard is not grounds to make it naggier or less person-first.</div>
+
+    <h3 class="subhead">Offensive/investigative staffing</h3>
+    <div class="formula-card">
+      Honeypot and counter-scam work (the Gold-tier concierge and threat-intel layers) is staffed by <b style="color:var(--text)">legitimate offensive-security professionals</b> — same hiring discipline as any red team: insurable, background-checkable, normal employment law. The O2 "Daisy" campaign is the model to copy: voice actors and scripted bots aimed at scam infrastructure, not real former scammers on payroll. Knowingly employing or contracting people with an active or recent fraud record as a "reformed hacker" pipeline is rejected — due-diligence liability, insurer exclusions, and conspiracy-exposure risk outweigh the redemption-story upside.
+    </div>
+
+    <h3 class="subhead">Pitch framing</h3>
+    <p class="col-70" style="color:var(--text-muted); font-size:0.95rem;">To investors: infrastructure story, not charity story — "the sensor at the edge feeding the fraud-intelligence systems banks, insurers, and telecoms already run," using the same adopt-don't-reinvent standards (MISP/STIX, FIDO2, CVSS/SSVC) already chosen elsewhere in this dossier.</p>
+  </section>
+
   <section id="sources">
-    <div class="section-head"><span class="section-num">08</span><h2>Sources consulted</h2></div>
+    <div class="section-head"><span class="section-num">09</span><h2>Sources consulted</h2></div>
     <div class="sources">
       <ul>
         <li><a href="https://www.ic3.gov/AnnualReport/Reports/2025_IC3Report.pdf">FBI IC3 2025 Annual Report</a></li>
@@ -629,6 +658,7 @@
       <tr><td>v1.1</td><td>2026-08-26</td><td>Response model expanded — severity/confidence scoring (Risk = S × C), the cross-layer escalation rule, and the eight-item unconditional-override list (U1–U8).</td></tr>
       <tr><td>v1.2</td><td>2026-08-26</td><td>Build-vs-adopt pass — closed the device/session legitimacy question onto FIDO2/WebAuthn, pointed the scoring model at CVSS/SSVC, and pointed pattern propagation at MISP/STIX/TAXII instead of bespoke protocols.</td></tr>
       <tr><td>v1.3</td><td>2026-09-29</td><td>Closed the federated-learning open question — fleet-wide confirmation policy added (Rumor → Confirmed, severity-scaled corroboration threshold, device-reputation-weighted independence, rate-limiting, human review gate at the top severity tier).</td></tr>
+      <tr><td>v1.4</td><td>2026-09-29</td><td>Added Business Model section — bundled-benefit revenue via banks/insurers/telecoms, non-dilutive bridge grants, threat-intel consortium membership in place of a government/police data hand-off, and legitimate-only offensive-security staffing. Narrowed the Offensive Measures open question to "how far," not "who."</td></tr>
     </tbody>
   </table>
 </footer>
