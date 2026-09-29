@@ -1,0 +1,137 @@
+<title>Scam-Guard — One-Pager</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #F4F6F8;
+    --surface: #FFFFFF;
+    --surface-alt: #EAEEF1;
+    --border: #D9E0E6;
+    --border-strong: #C2CBD3;
+    --text: #1B222C;
+    --text-muted: #5B6672;
+    --text-faint: #8A94A0;
+    --accent: #A8672A;
+    --accent-ink: #7A4C16;
+    --accent-tint: #F3E4D2;
+    --info: #3F6180;
+    --info-ink: #2E4A63;
+    --info-tint: #E4EBF1;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #10161F; --surface: #161D28; --surface-alt: #1B2330;
+      --border: #2B3542; --border-strong: #3A4655;
+      --text: #E7ECF2; --text-muted: #9AA7B4; --text-faint: #6E7A88;
+      --accent: #D9924B; --accent-ink: #F0B074; --accent-tint: #2E2416;
+      --info: #7FA0BE; --info-ink: #9DBAD3; --info-tint: #1B2934;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #10161F; --surface: #161D28; --surface-alt: #1B2330;
+    --border: #2B3542; --border-strong: #3A4655;
+    --text: #E7ECF2; --text-muted: #9AA7B4; --text-faint: #6E7A88;
+    --accent: #D9924B; --accent-ink: #F0B074; --accent-tint: #2E2416;
+    --info: #7FA0BE; --info-ink: #9DBAD3; --info-tint: #1B2934;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint);
+    display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+  h1 {
+    font-family: 'Source Serif 4', Georgia, serif; font-weight: 700;
+    font-size: clamp(2rem, 5vw, 2.6rem); letter-spacing: -0.01em; margin: 0 0 10px; text-wrap: balance;
+  }
+  .dek { font-size: 1.1rem; color: var(--text-muted); max-width: 60ch; margin: 0 0 32px; text-wrap: balance; }
+
+  h2 {
+    font-family: 'Source Serif 4', Georgia, serif; font-weight: 600; font-size: 1.3rem;
+    margin: 36px 0 10px; padding-top: 20px; border-top: 1px solid var(--border);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+  p { margin: 0 0 12px; max-width: 66ch; color: var(--text-muted); }
+  strong { color: var(--text); }
+
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0 20px; }
+  @media (max-width: 620px) { .stat-row { grid-template-columns: 1fr; } }
+  .stat { background: var(--surface); border: 1px solid var(--border); padding: 16px 18px; }
+  .stat .n { font-family: 'IBM Plex Mono', monospace; font-size: 1.4rem; color: var(--accent-ink); font-weight: 600; display: block; }
+  .stat .l { font-size: 0.85rem; color: var(--text-muted); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+  @media (max-width: 620px) { .grid-2 { grid-template-columns: 1fr; } }
+  .card { background: var(--surface); border: 1px solid var(--border); padding: 16px 18px; }
+  .card h3 { font-size: 0.98rem; margin: 0 0 6px; }
+  .card p { font-size: 0.92rem; margin: 0; }
+
+  .pitch-box {
+    margin-top: 8px; padding: 18px 22px; background: var(--accent-tint);
+    border-left: 3px solid var(--accent); font-size: 0.98rem; color: var(--text);
+  }
+  .pitch-box b { color: var(--accent-ink); }
+
+  .ladder-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+  .chip {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.05em;
+    padding: 6px 10px; background: var(--info-tint); color: var(--info-ink); border: 1px solid var(--border);
+  }
+
+  footer { margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--text-faint); }
+</style>
+
+<div class="wrap">
+  <div class="eyebrow"><span class="dot"></span>Partner &amp; Investor Brief · Scam-Guard · v0.1 · 2026-09-29</div>
+  <h1>The fraud-loss sensor already missing from your stack.</h1>
+  <p class="dek">Scam-Guard is a cross-signal scam-detection layer — install, message, and account activity, correlated across a person's own devices — built to plug into the fraud infrastructure banks, insurers, and telecoms already run, not replace it.</p>
+
+  <h2>The problem, in numbers</h2>
+  <div class="stat-row">
+    <div class="stat"><span class="n">$352M+</span><span class="l">FBI-reported AI-voice-scam losses targeting adults 60+, 2025</span></div>
+    <div class="stat"><span class="n">3 sec</span><span class="l">of audio needed to clone a trusted voice convincingly</span></div>
+    <div class="stat"><span class="n">Reg E</span><span class="l">puts the reimbursement liability on the bank, not the victim</span></div>
+  </div>
+  <p>Every one of these losses is currently detected — if at all — <strong>after</strong> the money moves. Scam-Guard's install/message/account correlation is built to catch the pattern in the 90-minute window while it's still forming, before the transaction, not after.</p>
+
+  <h2>What it is</h2>
+  <div class="grid-2">
+    <div class="card"><h3>Cross-signal correlation</h3><p>Any single signal — a remote-access install, an urgent SMS, a password reset — is weak alone. Two or three, clustered within an hour, is a composite incident. Same model enterprise SIEM/XDR already runs, applied to a household.</p></div>
+    <div class="card"><h3>Deliberately not competing with Google</h3><p>Live call-audio detection is ceded to OS vendors (Pixel/Gemini Nano already ships it, and platform policy blocks third parties from that layer anyway). Scam-Guard owns the layers Google doesn't: install, message, account, and cross-device correlation.</p></div>
+    <div class="card"><h3>Standards-based, not bespoke</h3><p>FIDO2/WebAuthn for device legitimacy, CVSS/SSVC-derived severity scoring, MISP/STIX/TAXII for confirmed-pattern distribution. Integrates with infrastructure your security team already recognizes.</p></div>
+    <div class="card"><h3>Confirmation before broadcast</h3><p>A pattern is a "Rumor" until independent, trust-weighted corroboration confirms it — severity-scaled, so a false positive can't propagate at the same speed as a true one.</p></div>
+  </div>
+
+  <h2>Why a bank, insurer, or telecom partners instead of builds</h2>
+  <p>You already carry the loss when this fails — reimbursement liability, fraud-insurance payouts, or spoofed-call regulatory exposure. Scam-Guard is built to sit in front of that loss as a bundled, white-label benefit on an existing account, rather than asking your customer to discover and trust a new brand mid-crisis.</p>
+  <div class="pitch-box">
+    <b>The ask:</b> a pilot integration — Scam-Guard's confirmed-incident feed wired into your existing fraud desk, bundled as a no-cost benefit for a defined customer segment, measured against your current fraud-loss baseline.
+  </div>
+
+  <h2>The tier ladder</h2>
+  <p>Free is the acquisition layer for the pilot; paid tiers are the standalone consumer path where no institutional bundler exists yet.</p>
+  <div class="ladder-row">
+    <span class="chip">FREE — Solo Sentinel</span>
+    <span class="chip">MID — Coordinated Pack</span>
+    <span class="chip">TOP — Family Watch</span>
+    <span class="chip">GOLD — Concierge Response</span>
+  </div>
+
+  <h2>Where the money outside a bundle comes from</h2>
+  <p>Non-dilutive bridge funding — FTC consumer-protection, DOJ Elder Justice, AARP Foundation grants — funds the free tier build before an institutional pilot lands. No ask made to law enforcement or regulators for data: the integration point there is consortium membership (FS-ISAC, FBI IC3 aggregate reporting), the same posture as the bank/insurer integration above.</p>
+
+  <footer>
+    Full decision record, response model, and architecture: see the companion Scam-Guard Dossier. This brief is a working draft for early partner and investor conversations — figures and asks will sharpen with the first real conversation.
+  </footer>
+</div>

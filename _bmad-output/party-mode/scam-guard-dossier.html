@@ -395,7 +395,7 @@
     <h1 class="title">Decisions From the Founding Session</h1>
     <p class="dek">What scam-guard is, the tiers it ships as, how it detects and responds, and what's still unresolved — compiled from a live working session grounded in a real incident.</p>
     <div class="meta-row">
-      <span><b>v1.4</b></span>
+      <span><b>v1.5</b></span>
       <span>2026-09-29</span>
       <span>Compiled by the founding round-table</span>
     </div>
@@ -457,6 +457,21 @@
           <span class="rung-delta">Adds a <b>person</b>, not just software.</span>
         </div>
       </div>
+    </div>
+
+    <h3 class="subhead">Tier scenarios — the same incident, at each rung</h3>
+    <p class="section-intro" style="margin-top:0;">Walking the reference incident (§06) through each tier, to make "what the agent is allowed to see and coordinate" concrete rather than descriptive.</p>
+    <div class="formula-card">
+      <b style="color:var(--text)">FREE —</b> The phone alone sees the AnyDesk install land right after the panic call (Install layer) and the OTP-request SMS that follows (Message layer). U1 (never relay an OTP) fires as an unconditional override regardless of score. Two layers in the 90-minute window would have escalated anyway. What Free <i>can't</i> do: if the attacker had pivoted to a laptop, that device's signals are invisible to the phone — no cross-device correlation exists yet.
+    </div>
+    <div class="formula-card">
+      <b style="color:var(--text)">MID —</b> Same family, phone and laptop both enrolled. The laptop independently sees a password-reset email and a new-device login attempt (Account layer) minutes after the phone's already-open incident. Because Mid syncs signals across a person's own devices, the laptop's Account-layer hit joins the phone's Install+Message hits into one 3-layer composite — multiplier ×2.5, Composite ≥ 40, promotes to KILL on both devices and freezes the reset in flight. This is "a laptop can warn based on what the phone just saw," made literal.
+    </div>
+    <div class="formula-card">
+      <b style="color:var(--text)">TOP —</b> An adult child holds the Top-tier admin seat for an aging parent. The parent's phone fires a WARN (composite below the auto-KILL threshold — real ambiguity, not an override case). Default RBAC setting: the family contact gets a same-day notification of <i>the flagged incident and what triggered it</i> — not standing access to the parent's messages, accounts, or call log. Escalating to full account visibility requires the parent's own one-tap consent from the same block-screen, or a Gold-tier case being opened. Proposed default answer to the "what does a monitored family member get to see" open question (§07): incident visibility, never blanket surveillance, by default.
+    </div>
+    <div class="formula-card">
+      <b style="color:var(--text)">GOLD —</b> Pattern 05 (post-compromise account-takeover cascade) is already underway — email and social recovery paths are being closed off. A human concierge investigator opens a case within the hour, walks the family through simultaneous recovery across email/social/bank, and is the actual human on the other end of a partner bank's fraud-desk escalation (the Business Model §08 partner-integration point, made concrete) — then files the confirmed pattern to the threat-intel consortium directly, rather than waiting on the automated Rumor→Confirmed path.
     </div>
   </section>
 
@@ -584,7 +599,7 @@
     <div class="questions">
       <div class="question">
         <h3>Family RBAC and dignity</h3>
-        <p>Who holds admin by default in the Top tier, and what does a monitored family member get to see about their own monitoring? Parent-over-minor is an accepted category; adult-child-over-aging-parent is a far more delicate one.</p>
+        <p>A default is now proposed (§02, Top scenario): the family contact sees <i>the flagged incident</i>, not standing access to accounts or messages, unless the monitored person consents or a Gold case opens. Still open: whether that default holds for parent-over-minor the same way it does for adult-child-over-aging-parent, and who can override it.</p>
       </div>
       <div class="question">
         <h3>Offensive measures — how far, not who</h3>
@@ -659,6 +674,7 @@
       <tr><td>v1.2</td><td>2026-08-26</td><td>Build-vs-adopt pass — closed the device/session legitimacy question onto FIDO2/WebAuthn, pointed the scoring model at CVSS/SSVC, and pointed pattern propagation at MISP/STIX/TAXII instead of bespoke protocols.</td></tr>
       <tr><td>v1.3</td><td>2026-09-29</td><td>Closed the federated-learning open question — fleet-wide confirmation policy added (Rumor → Confirmed, severity-scaled corroboration threshold, device-reputation-weighted independence, rate-limiting, human review gate at the top severity tier).</td></tr>
       <tr><td>v1.4</td><td>2026-09-29</td><td>Added Business Model section — bundled-benefit revenue via banks/insurers/telecoms, non-dilutive bridge grants, threat-intel consortium membership in place of a government/police data hand-off, and legitimate-only offensive-security staffing. Narrowed the Offensive Measures open question to "how far," not "who."</td></tr>
+      <tr><td>v1.5</td><td>2026-09-29</td><td>Added concrete Tier Scenarios (§02) walking the reference incident through Free/Mid/Top/Gold. Proposed a default for the Family RBAC open question: incident visibility, not blanket account access.</td></tr>
     </tbody>
   </table>
 </footer>

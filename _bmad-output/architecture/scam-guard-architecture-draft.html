@@ -1,0 +1,188 @@
+<title>Scam-Guard — Architecture Draft (Naive v0)</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #F4F6F8; --surface: #FFFFFF; --surface-alt: #EAEEF1;
+    --border: #D9E0E6; --border-strong: #C2CBD3;
+    --text: #1B222C; --text-muted: #5B6672; --text-faint: #8A94A0;
+    --accent: #A8672A; --accent-ink: #7A4C16; --accent-tint: #F3E4D2;
+    --info: #3F6180; --info-ink: #2E4A63; --info-tint: #E4EBF1;
+    --client: #3F6180; --client-tint: #E4EBF1;
+    --core: #A8672A; --core-tint: #F3E4D2;
+    --ext: #5B7A5E; --ext-tint: #E6EEE6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #10161F; --surface: #161D28; --surface-alt: #1B2330;
+      --border: #2B3542; --border-strong: #3A4655;
+      --text: #E7ECF2; --text-muted: #9AA7B4; --text-faint: #6E7A88;
+      --accent: #D9924B; --accent-ink: #F0B074; --accent-tint: #2E2416;
+      --info: #7FA0BE; --info-ink: #9DBAD3; --info-tint: #1B2934;
+      --client-tint: #1B2934; --core-tint: #2E2416; --ext-tint: #1C241C;
+      --ext: #8FB593;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #10161F; --surface: #161D28; --surface-alt: #1B2330;
+    --border: #2B3542; --border-strong: #3A4655;
+    --text: #E7ECF2; --text-muted: #9AA7B4; --text-faint: #6E7A88;
+    --accent: #D9924B; --accent-ink: #F0B074; --accent-tint: #2E2416;
+    --info: #7FA0BE; --info-ink: #9DBAD3; --info-tint: #1B2934;
+    --client-tint: #1B2934; --core-tint: #2E2416; --ext-tint: #1C241C;
+    --ext: #8FB593;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 44px 24px 80px; }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint);
+    display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+  h1 {
+    font-family: 'Source Serif 4', Georgia, serif; font-weight: 700;
+    font-size: clamp(1.9rem, 4.5vw, 2.4rem); letter-spacing: -0.01em; margin: 0 0 10px; text-wrap: balance;
+  }
+  .dek { font-size: 1.05rem; color: var(--text-muted); max-width: 68ch; margin: 0 0 8px; }
+  .caveat {
+    margin: 18px 0 36px; padding: 14px 18px; background: var(--surface); border: 1px dashed var(--border-strong);
+    font-size: 0.9rem; color: var(--text-muted);
+  }
+  .caveat b { color: var(--text); }
+
+  h2 {
+    font-family: 'Source Serif 4', Georgia, serif; font-weight: 600; font-size: 1.35rem;
+    margin: 40px 0 6px;
+  }
+  .section-intro { color: var(--text-muted); max-width: 70ch; margin: 0 0 18px; font-size: 0.95rem; }
+
+  /* ---- diagram ---- */
+  .diagram { display: flex; flex-direction: column; gap: 4px; }
+  .tier-row { display: grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: stretch; }
+  @media (max-width: 700px) { .tier-row { grid-template-columns: 1fr; } }
+  .tier-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-faint); display: flex; align-items: center;
+  }
+  .box-row { display: flex; flex-wrap: wrap; gap: 10px; padding: 10px; border: 1px dashed var(--border-strong); }
+  .box {
+    flex: 1 1 160px; min-width: 150px; padding: 12px 14px; border: 1px solid var(--border);
+    background: var(--surface); font-size: 0.87rem;
+  }
+  .box .t { font-weight: 600; display: block; margin-bottom: 3px; }
+  .box .d { color: var(--text-muted); font-size: 0.82rem; }
+  .box.client { border-left: 3px solid var(--client); background: var(--client-tint); }
+  .box.core { border-left: 3px solid var(--core); background: var(--core-tint); }
+  .box.ext { border-left: 3px solid var(--ext); background: var(--ext-tint); }
+
+  .arrow-row { display: flex; justify-content: center; color: var(--text-faint); font-family: 'IBM Plex Mono', monospace; font-size: 13px; padding: 2px 0; }
+
+  .legend { display: flex; gap: 18px; flex-wrap: wrap; margin: 14px 0 8px; font-size: 0.85rem; color: var(--text-muted); }
+  .legend .sw { display: inline-block; width: 10px; height: 10px; margin-right: 6px; vertical-align: middle; }
+  .legend .client .sw { background: var(--client); }
+  .legend .core .sw { background: var(--core); }
+  .legend .ext .sw { background: var(--ext); }
+
+  table.comp { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9rem; }
+  table.comp th, table.comp td { text-align: left; padding: 9px 12px; border-top: 1px solid var(--border); vertical-align: top; }
+  table.comp th { color: var(--text-faint); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; font-size: 10.5px; font-family: 'IBM Plex Mono', monospace; }
+  table.comp td.ref { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--info-ink); white-space: nowrap; }
+
+  .gaps { display: flex; flex-direction: column; gap: 10px; }
+  .gap { border: 1px solid var(--border); border-left: 3px solid var(--info); background: var(--surface); padding: 12px 16px; font-size: 0.92rem; }
+  .gap b { color: var(--text); }
+
+  footer { margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--text-faint); }
+</style>
+
+<div class="wrap">
+  <div class="eyebrow"><span class="dot"></span>Architecture Draft · Scam-Guard · v0.1 (naive) · 2026-09-29</div>
+  <h1>System sketch — every component discussed so far, wired together once</h1>
+  <p class="dek">Not an engineering spec. This is the first pass at turning the dossier's decisions (tier ladder, response model, confirmation policy, business-model integrations) into boxes and arrows, so the next design pass has a shape to argue with instead of a blank page.</p>
+  <div class="caveat"><b>Naive on purpose:</b> no scaling numbers, no exact APIs/schemas, no deployment topology. Just: what are the parts, what does each own, and what talks to what.</div>
+
+  <h2>Component map</h2>
+  <p class="section-intro">Three zones: <b style="color:var(--client)">client</b> (runs on the person's device), <b style="color:var(--core)">core cloud</b> (Scam-Guard's own backend), <b style="color:var(--ext)">external</b> (standards and partners it plugs into, never rebuilds).</p>
+
+  <div class="legend">
+    <span class="client"><span class="sw"></span>Client (on-device)</span>
+    <span class="core"><span class="sw"></span>Scam-Guard core cloud</span>
+    <span class="ext"><span class="sw"></span>External / partner / standard</span>
+  </div>
+
+  <div class="diagram">
+    <div class="tier-row">
+      <div class="tier-label">Client</div>
+      <div class="box-row">
+        <div class="box client"><span class="t">Sentinel Agent</span><span class="d">Per-device. Install/Message/Account signal collectors + local block-screen UI.</span></div>
+        <div class="box client"><span class="t">Local Scorer</span><span class="d">Risk = Severity × Confidence; U1–U8 override checks run here, no round-trip needed to block.</span></div>
+        <div class="box client"><span class="t">FIDO2/WebAuthn Client</span><span class="d">Device/session legitimacy proof for remote-control and high-risk actions.</span></div>
+      </div>
+    </div>
+
+    <div class="arrow-row">↓ signals &amp; incidents up · confirmed patterns + policy down ↑</div>
+
+    <div class="tier-row">
+      <div class="tier-label">Core cloud</div>
+      <div class="box-row">
+        <div class="box core"><span class="t">Ingest API</span><span class="d">Receives per-device signals and incidents.</span></div>
+        <div class="box core"><span class="t">Correlation Service</span><span class="d">Cross-device escalation: 90-min window, layer multiplier, Composite ≥ 40 promotion. (Mid tier's "laptop sees what the phone saw.")</span></div>
+        <div class="box core"><span class="t">Identity &amp; Device-Reputation Service</span><span class="d">FIDO2/WebAuthn server + trust score per device, feeds both session checks and confirmation weighting.</span></div>
+        <div class="box core"><span class="t">Confirmation Engine</span><span class="d">Rumor → Confirmed: severity-scaled corroboration threshold, Sybil/rate-limit defense, human-review gate at top severity.</span></div>
+        <div class="box core"><span class="t">Family/RBAC Service</span><span class="d">Top tier — seat management, incident-visibility scoping, consent flow.</span></div>
+        <div class="box core"><span class="t">Concierge Console</span><span class="d">Gold tier — human investigator case queue, manual pattern filing.</span></div>
+        <div class="box core"><span class="t">Partner Integration Layer</span><span class="d">Bank/insurer/telecom bundler APIs, fraud-desk handoff, billing/entitlement by tier.</span></div>
+      </div>
+    </div>
+
+    <div class="arrow-row">↓ confirmed patterns out · consortium feed in ↑</div>
+
+    <div class="tier-row">
+      <div class="tier-label">External</div>
+      <div class="box-row">
+        <div class="box ext"><span class="t">MISP / STIX / TAXII</span><span class="d">Confirmed-pattern distribution format and transport — fleet-wide "recipe" propagation.</span></div>
+        <div class="box ext"><span class="t">Threat-Intel Consortia</span><span class="d">FS-ISAC (banking), FBI IC3 (aggregate reporting) — membership, not a data hand-off.</span></div>
+        <div class="box ext"><span class="t">Bank / Insurer / Telecom Fraud Desks</span><span class="d">Receive confirmed-incident feed; own the reimbursement/claims decision.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h2>What each piece is doing, and where it came from</h2>
+  <table class="comp">
+    <thead><tr><th>Component</th><th>Owns</th><th>Dossier ref</th></tr></thead>
+    <tbody>
+      <tr><td>Sentinel Agent + Local Scorer</td><td>Detection, scoring, and unconditional overrides at the point closest to the person — blocking never waits on a network round-trip.</td><td class="ref">§03, §04</td></tr>
+      <tr><td>Correlation Service</td><td>Cross-device composite scoring; the actual product per the dossier ("any one signal alone is weak").</td><td class="ref">§03, §04</td></tr>
+      <tr><td>Identity &amp; Device-Reputation</td><td>Session legitimacy (is this remote-control attempt authorized) and confirmation-weighting (whose vote counts).</td><td class="ref">§03, §04</td></tr>
+      <tr><td>Confirmation Engine</td><td>Gate between a local suspicion and a fleet-wide broadcast.</td><td class="ref">§04</td></tr>
+      <tr><td>Family/RBAC Service</td><td>Top-tier seat and visibility scoping — incident visibility by default, not blanket access.</td><td class="ref">§02, §07</td></tr>
+      <tr><td>Concierge Console</td><td>Gold-tier human case handling, and the human side of a partner's fraud-desk escalation.</td><td class="ref">§02, §08</td></tr>
+      <tr><td>Partner Integration Layer</td><td>The actual business model — bundled-benefit entitlement and fraud-desk handoff for bank/insurer/telecom partners.</td><td class="ref">§08</td></tr>
+      <tr><td>MISP/STIX/TAXII</td><td>Adopted standard for pattern distribution instead of a bespoke protocol.</td><td class="ref">§04</td></tr>
+      <tr><td>Threat-intel consortia</td><td>Where government/law-enforcement/bank intel actually gets exchanged — membership, not raw data requests.</td><td class="ref">§08</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Known gaps in this draft</h2>
+  <p class="section-intro">Named so the next pass doesn't quietly assume these are solved.</p>
+  <div class="gaps">
+    <div class="gap"><b>Message/SMS content classification</b> has no mature open-source component to slot in — flagged in the dossier as the one build-it-yourself layer. Not represented as a real box above; it's a gap inside "Sentinel Agent," not a solved collector.</div>
+    <div class="gap"><b>No data model or storage layer drawn</b> — what the Correlation Service and Confirmation Engine actually persist, retention, and encryption-at-rest are all undesigned.</div>
+    <div class="gap"><b>No auth/tenancy model for the Partner Integration Layer</b> — how a bank's fraud desk authenticates and what it's scoped to see is unspecified.</div>
+    <div class="gap"><b>Confirmation Engine's exact thresholds are still qualitative</b> ("a few reports" / "many, trust-weighted") — no concrete numbers chosen yet.</div>
+    <div class="gap"><b>Offline/degraded-connectivity behavior</b> for the Sentinel Agent isn't addressed — Free tier's "no cloud dependency for the core promise" implies local-only fallback, not yet designed.</div>
+  </div>
+
+  <footer>
+    Companion documents: Scam-Guard Dossier (decision record) and the partner/investor one-pager. This draft exists to be argued with, not shipped.
+  </footer>
+</div>
