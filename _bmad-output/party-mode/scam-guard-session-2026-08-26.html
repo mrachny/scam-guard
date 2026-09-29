@@ -1,0 +1,248 @@
+<title>Six Voices, One Watch</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #F3EFF4;
+    --surface: #FBF9FC;
+    --border: #E1D9E4;
+    --text: #251A28;
+    --text-muted: #6E5F73;
+    --text-faint: #9C8FA0;
+    --accent: #A97F2C;
+    --accent-strong: #8A6620;
+    --accent-tint: #F1E5CC;
+    --glow: #C99A3E;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1A1420;
+      --surface: #221A29;
+      --border: #362A3D;
+      --text: #EFE7F2;
+      --text-muted: #B0A2B5;
+      --text-faint: #766A7C;
+      --accent: #D9AA55;
+      --accent-strong: #E8BE73;
+      --accent-tint: #33291A;
+      --glow: #E8BE73;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1A1420;
+    --surface: #221A29;
+    --border: #362A3D;
+    --text: #EFE7F2;
+    --text-muted: #B0A2B5;
+    --text-faint: #766A7C;
+    --accent: #D9AA55;
+    --accent-strong: #E8BE73;
+    --accent-tint: #33291A;
+    --glow: #E8BE73;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Karla', -apple-system, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent-tint); color: var(--accent-strong); }
+
+  .wrap { max-width: 700px; margin: 0 auto; padding: 72px 24px 90px; }
+
+  .flames { display: flex; justify-content: center; gap: 14px; margin-bottom: 28px; }
+  .flame {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--glow);
+    box-shadow: 0 0 8px 1px var(--glow);
+    opacity: 0.75;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .flame { animation: flicker 2.6s ease-in-out infinite; }
+    .flame:nth-child(2) { animation-delay: .3s; }
+    .flame:nth-child(3) { animation-delay: .9s; }
+    .flame:nth-child(4) { animation-delay: .5s; }
+    .flame:nth-child(5) { animation-delay: 1.2s; }
+    .flame:nth-child(6) { animation-delay: .15s; }
+    @keyframes flicker { 0%,100% { opacity: .55; transform: scale(1); } 50% { opacity: 1; transform: scale(1.25); } }
+  }
+
+  .kicker {
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 7vw, 3.4rem);
+    text-align: center;
+    text-wrap: balance;
+    margin: 0 0 14px;
+    letter-spacing: 0.01em;
+  }
+  .lede {
+    text-align: center;
+    max-width: 46ch;
+    margin: 0 auto 56px;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+  }
+  .lede i { font-style: italic; color: var(--text); }
+
+  .frame {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 1.28rem;
+    line-height: 1.7;
+    color: var(--text);
+    text-wrap: balance;
+    max-width: 54ch;
+    margin: 0 auto 60px;
+    text-align: center;
+  }
+
+  .roundtable { display: flex; flex-direction: column; gap: 2px; }
+  .voice {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 26px 28px;
+  }
+  .voice-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .voice-icon { font-size: 1.4rem; line-height: 1; }
+  .voice-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--accent-strong);
+  }
+  .voice-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .voice-quote {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.32rem;
+    line-height: 1.55;
+    color: var(--text);
+    margin: 0 0 10px;
+    text-wrap: balance;
+  }
+  .voice-quote::before { content: "\201C"; color: var(--accent); }
+  .voice-quote::after { content: "\201D"; color: var(--accent); }
+  .voice-context { font-size: 0.92rem; color: var(--text-muted); margin: 0; }
+
+  .incident-mark {
+    margin: 56px 0;
+    padding: 22px 26px;
+    background: var(--accent-tint);
+    border-left: 3px solid var(--accent);
+    font-size: 0.98rem;
+    color: var(--text);
+  }
+  .incident-mark b { color: var(--accent-strong); }
+
+  .thread {
+    margin-top: 60px;
+    text-align: center;
+  }
+  .thread .kicker { margin-bottom: 14px; }
+  .thread p {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text-muted);
+    max-width: 48ch;
+    margin: 0 auto;
+  }
+
+  footer {
+    margin-top: 70px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="flames">
+    <div class="flame"></div><div class="flame"></div><div class="flame"></div>
+    <div class="flame"></div><div class="flame"></div><div class="flame"></div>
+  </div>
+
+  <div class="kicker">A Party-Mode Session · Scam-Guard</div>
+  <h1>Six Voices, One Watch</h1>
+  <p class="lede">Six minds around one table, the night <i>scam-guard</i> found its first real shape — from a founding question to a versioned dossier, grounded in something that actually happened to someone's family.</p>
+
+  <p class="frame">It began as a name and a blank page, and ended as a ladder of tiers, a scoring formula, and eight lines no one should ever cross. In between, the room argued — about vigilantes and shepherds, about what to build and what to borrow, about a phone call that went on far too long one real night.</p>
+
+  <div class="roundtable">
+
+    <div class="voice">
+      <div class="voice-head"><span class="voice-icon">📖</span><span class="voice-name">Sophia</span><span class="voice-title">Master Storyteller</span></div>
+      <p class="voice-quote">The empire already built a watchtower on the main road. Your job was never to out-build it — it's to cover the back roads, and to be the one who rides out when the smoke goes up.</p>
+      <p class="voice-context">Said the night the room chose to cede live-call detection to Google, and found the better company hiding in the concession.</p>
+    </div>
+
+    <div class="voice">
+      <div class="voice-head"><span class="voice-icon">🎨</span><span class="voice-name">Maya</span><span class="voice-title">Design Thinking Maestro</span></div>
+      <p class="voice-quote">A tool that only works if someone remembers to use it protects the people who were already going to be fine.</p>
+      <p class="voice-context">On why a good idea borrowed from elsewhere still has to survive contact with someone who is scared and not thinking clearly.</p>
+    </div>
+
+    <div class="voice">
+      <div class="voice-head"><span class="voice-icon">🔬</span><span class="voice-name">Dr. Quinn</span><span class="voice-title">Master Problem Solver</span></div>
+      <p class="voice-quote">That is exactly the right question to ask right now, and I should have asked it before we built a formula from scratch.</p>
+      <p class="voice-context">The turn that sent the room hunting for CVSS, MISP, and FIDO2 instead of finishing what it had already half-invented.</p>
+    </div>
+
+    <div class="voice">
+      <div class="voice-head"><span class="voice-icon">⚡</span><span class="voice-name">Victor</span><span class="voice-title">Disruptive Innovation Oracle</span></div>
+      <p class="voice-quote">This is the whole company, Master. Not a metaphor.</p>
+      <p class="voice-context">On hearing the real incident and recognizing, in one line, exactly what the business was for.</p>
+    </div>
+
+    <div class="voice">
+      <div class="voice-head"><span class="voice-icon">🎬</span><span class="voice-name">Caravaggio</span><span class="voice-title">Presentation Expert</span></div>
+      <p class="voice-quote">"A human investigator shows up for you" — that's the first sentence all session that's actually pitchable.</p>
+      <p class="voice-context">The moment the gold tier stopped being a feature and became a promise someone could say out loud.</p>
+    </div>
+
+    <div class="voice">
+      <div class="voice-head"><span class="voice-icon">🧠</span><span class="voice-name">Carson</span><span class="voice-title">Elite Brainstorming Specialist</span></div>
+      <p class="voice-quote">This rule fires at the install, Master. Before the phone was ever really gone.</p>
+      <p class="voice-context">Running the new escalation math against the real night, out loud, and finding it would have been early enough.</p>
+    </div>
+
+  </div>
+
+  <div class="incident-mark">
+    <b>What grounded all of it:</b> a real, coordinated attack on a family — a spoofed call, a fabricated emergency, a guided remote-access takeover, and an account-takeover cascade. Named, distilled into five patterns, and turned into the reason a kill-switch, a scoring model, and eight unconditional rules exist at all.
+  </div>
+
+  <div class="thread">
+    <div class="kicker">Left on the table</div>
+    <p>Mid, Top, and Gold tier still want their own real scenarios — and something still has to decide what confirms a pattern before it's told to every other watch in the world.</p>
+  </div>
+
+  <footer>Scam-Guard · Founding Session · 2026-08-26 · Continued next time</footer>
+
+</div>
