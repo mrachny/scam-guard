@@ -395,8 +395,8 @@
     <h1 class="title">Decisions From the Founding Session</h1>
     <p class="dek">What scam-guard is, the tiers it ships as, how it detects and responds, and what's still unresolved — compiled from a live working session grounded in a real incident.</p>
     <div class="meta-row">
-      <span><b>v1.2</b></span>
-      <span>2026-08-26</span>
+      <span><b>v1.3</b></span>
+      <span>2026-09-29</span>
       <span>Compiled by the founding round-table</span>
     </div>
   </div>
@@ -537,6 +537,19 @@
       <b>The actual product:</b> any one of these alone is a weak signal. All three, clustered in under an hour, is a composite incident — the same correlation model enterprise SIEM/XDR tools already run, applied to a household. A confirmed pattern becomes a "recipe" distributed to every other agent, the same way antivirus vendors distribute malware signatures — applied here to social-engineering scripts instead of code.
     </div>
     <div class="adopt-note"><span class="chip">Adopt, don't reinvent</span><br/><b>MISP</b> (Malware Information Sharing Platform) is a free, open-source platform built for exactly this kind of distribution, on open standards — <b>STIX</b> to structure an indicator, <b>TAXII</b> to transport it. Publish confirmed patterns in STIX format over MISP-compatible infrastructure rather than building a bespoke propagation protocol.</div>
+
+    <h3 class="subhead" style="margin-top:24px;">Fleet-wide confirmation policy</h3>
+    <div class="formula-card">
+      MISP/STIX is a transport, not a policy — it doesn't say when a pattern earns the broadcast. A candidate pattern starts as a <b style="color:var(--text)">Rumor</b> (local, unconfirmed) and is promoted to <b style="color:var(--text)">Confirmed</b> (fleet-broadcast) only once independent corroboration clears a threshold. The threshold isn't one fixed number — it's the same Severity axis reused: <b style="color:var(--accent-ink)">confirmation requirement scales with the blast radius of being wrong.</b>
+      <table class="mult-table">
+        <thead><tr><th>If the pattern is wrong...</th><th>Confirmation requirement</th></tr></thead>
+        <tbody>
+          <tr><td>Low harm (e.g. a phishing link/shortcode)</td><td>Few independent reports, auto-promotes fast</td></tr>
+          <tr><td>High harm (e.g. flags a legitimate remote-access tool)</td><td>Many independent, trust-weighted reports <i>plus</i> a human review gate before broadcast</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="adopt-note"><span class="chip">Sybil defense</span><br/>"Independent" means distinct accounts and devices with no shared trust graph — a family plan's five devices are one opinion, not five. Reports are weighted by <b>device reputation</b> (age and clean history on the same FIDO2/WebAuthn-anchored identity already adopted for session legitimacy) and rate-limited per device, so a patient sock-puppet farm can't buy influence by queuing one-off votes over time.</div>
   </section>
 
   <section id="positioning">
@@ -569,10 +582,6 @@
     <div class="section-head"><span class="section-num">07</span><h2>Open questions</h2></div>
     <p class="section-intro">Named and deliberately left open, rather than papered over.</p>
     <div class="questions">
-      <div class="question">
-        <h3>Federated-learning safeguards</h3>
-        <p>MISP/STIX gives a transport, not a policy — what actually confirms a pattern before it's broadcast to every other agent over it? A false positive propagates exactly as fast as a true one.</p>
-      </div>
       <div class="question">
         <h3>Family RBAC and dignity</h3>
         <p>Who holds admin by default in the Top tier, and what does a monitored family member get to see about their own monitoring? Parent-over-minor is an accepted category; adult-child-over-aging-parent is a far more delicate one.</p>
@@ -619,6 +628,7 @@
       <tr><td>v1.0</td><td>2026-08-26</td><td>Initial decision record — mission, tier ladder, response model, detection architecture, positioning, reference incident, open questions.</td></tr>
       <tr><td>v1.1</td><td>2026-08-26</td><td>Response model expanded — severity/confidence scoring (Risk = S × C), the cross-layer escalation rule, and the eight-item unconditional-override list (U1–U8).</td></tr>
       <tr><td>v1.2</td><td>2026-08-26</td><td>Build-vs-adopt pass — closed the device/session legitimacy question onto FIDO2/WebAuthn, pointed the scoring model at CVSS/SSVC, and pointed pattern propagation at MISP/STIX/TAXII instead of bespoke protocols.</td></tr>
+      <tr><td>v1.3</td><td>2026-09-29</td><td>Closed the federated-learning open question — fleet-wide confirmation policy added (Rumor → Confirmed, severity-scaled corroboration threshold, device-reputation-weighted independence, rate-limiting, human review gate at the top severity tier).</td></tr>
     </tbody>
   </table>
 </footer>
